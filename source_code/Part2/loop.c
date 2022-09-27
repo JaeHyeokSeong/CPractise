@@ -81,6 +81,7 @@ int main(){
 	int floor = 0;
 	printf("층수를 입력해 주세요 : ");
 	scanf("%d", &floor);
+	printf("\n");
 
 	for(int i = 0; i < floor; i++) {
 		for(int j = i; j < floor - 1; j++) {
@@ -91,6 +92,6 @@ int main(){
 		}
 		printf("\n");
 	}
-	
+	printf("\n");	
 	return 0;
 }
