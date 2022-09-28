@@ -1,14 +1,16 @@
 #include <stdio.h>
 
-// employee_t 구조체 선언
 typedef struct {
-    char* name;
-    float fte; // 범위 [0.0, 1.0]
-    unsigned int level; // 범위 [7, 18]
-    // birthday (day, month, year)
     unsigned int day; // 범위 [1, 31]
     unsigned int month; // 범위 [1, 12]
     unsigned int year; // 범위 [1800, 2017]
+} brithday;
+// employee_t 구조체 선언
+typedef struct {
+    char name[256];
+    float fte; // 범위 [0.0, 1.0]
+    unsigned int level; // 범위 [7, 18]
+    brithday date_t; // nested struct
 } employee_t;
 
 unsigned int read_integer(char* str, int min, int max){
@@ -40,24 +42,15 @@ void add_employee(employee_t* employee_t_ptr, int* index, int arraySize){
     if(*index >= arraySize){
         printf("\n[Warning] Insufficient storage space\n");
     } else {
-        char name[256];
         int i = *index;
         printf("===============Add Employee===============\n\n");
         printf("Enter name> ");
-        scanf("%s", name);
-        employee_t_ptr[i].name = name;
-        // debuging
-        // printf("Testing %s\n", employee_t_ptr[i].name);
-        employee_t_ptr[i].day = read_integer("Enter birthday: day> ", 1, 31);  
-        // printf("Testing %u\n", employee_t_ptr[i].day);
-        employee_t_ptr[i].month = read_integer("Enter birthday: month> ", 1, 12);
-        // printf("Testing %u\n", employee_t_ptr[i].month);
-        employee_t_ptr[i].year = read_integer("Enter birthday: year> ", 1800, 2017);
-        // printf("Testing %u\n", employee_t_ptr[i].year);
+        scanf("%s", employee_t_ptr[i].name);
+        employee_t_ptr[i].date_t.day = read_integer("Enter birthday: day> ", 1, 31);  
+        employee_t_ptr[i].date_t.month = read_integer("Enter birthday: month> ", 1, 12);
+        employee_t_ptr[i].date_t.year = read_integer("Enter birthday: year> ", 1800, 2017);
         employee_t_ptr[i].fte = read_float("Enter FTE> ", 0.0, 1.0);
-        // printf("Testing %f\n", employee_t_ptr[i].fte);
         employee_t_ptr[i].level = read_integer("Enter level> ", 7, 18);
-        // printf("Testing %u\n", employee_t_ptr[i].level);
         printf("==========================================\n\n");
         *index = i + 1;
     }
@@ -74,9 +67,9 @@ void delete_last_employee(employee_t* employee_t_ptr, int* index){
 void view_employee(employee_t employee_list){
     printf("==========View============\n");
     printf("Name  :  %s\n", employee_list.name);
-    printf("Day   :  %u\n", employee_list.day);
-    printf("Month :  %u\n", employee_list.month);
-    printf("Year  :  %u\n", employee_list.year);
+    printf("Day   :  %u\n", employee_list.date_t.day);
+    printf("Month :  %u\n", employee_list.date_t.month);
+    printf("Year  :  %u\n", employee_list.date_t.year);
     printf("FTE   :  %.2f\n", employee_list.fte);
     printf("Level :  %u\n", employee_list.level);
     printf("==========================\n\n");
