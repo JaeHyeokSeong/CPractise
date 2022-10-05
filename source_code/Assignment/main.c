@@ -143,12 +143,12 @@ int main(){
             if(file == NULL) {
                 printf("[Warning] Nothing to read\n");
             } else {
-                printf("=====================================");
+                printf("=============Employee List===============");
                 printf("\n\nname|fte|level|day|month|year\n\n");
                 char buffer[1000] = {0, };
                 fread(buffer, 1, 1000, file);
                 printf("%s", buffer);
-                printf("\n=====================================\n\n");
+                printf("\n=============End of the file=============\n\n");
                 fclose(file);
             }
         }
