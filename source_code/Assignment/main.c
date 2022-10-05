@@ -97,22 +97,22 @@ int main(){
     // Ouput
     int input = 0;
     do{
-        printf("1 (Add), 2 (Remove), 3 (View), 4(Save), -1 (Exit) => ");
+        printf("1 (Add), 2 (Remove), 3(Save), -1 (Exit) => ");
         scanf("%d", &input);
         if(input == 1){
             add_employee(employeelist, &current_employee_number, MAX_COMPANY_SIZE);
         } else if(input == 2){
             delete_last_employee(employeelist, &current_employee_number);
+        // } else if(input == 3){
+        //     if(current_employee_number == 0){
+        //         printf("Nothing to view\n");
+        //         continue;
+        //     }
+        //     printf("Enter 1 ~ %d number => ", current_employee_number);
+        //     int i = 0;
+        //     scanf("%d", &i);
+        //     view_employee(employeelist[i-1]);
         } else if(input == 3){
-            if(current_employee_number == 0){
-                printf("Nothing to view\n");
-                continue;
-            }
-            printf("Enter 1 ~ %d number => ", current_employee_number);
-            int i = 0;
-            scanf("%d", &i);
-            view_employee(employeelist[i-1]);
-        } else if(input == 4){
             // save a file
             int temp = current_employee_number-1; // 인덱스로 접근 할꺼니까 -1 해주기
             // 만약 current_employee_number 가 0 이면 아직 직원이 추가 안된상태이니까 -1이
@@ -120,32 +120,24 @@ int main(){
             if(temp == -1){
                 printf("[Warning] Please add employee\n");
             } else{
-                for(int i = temp; i >= 0; i--){
-                    const char* str1 = "employee";
-                    char *num;
-                    char buffer[MAX];
-                    if (asprintf(&num, "%d", employeeId++) == -1) {
-                         perror("asprintf");
-                    } else {
-                        memccpy(memccpy(buffer, str1, '\0', MAX) - 1, num, '\0', MAX);
-                        free(num);
-                        char* fileformat = ".txt";
-                        strcat(buffer, fileformat);
-                    }
-                    const char* fileName = buffer;
-                    FILE* file = fopen(fileName, "wb");
+                    const char* fileName = "employee_list.txt";
+                    FILE* file = fopen(fileName, "ab");
                     if(file == NULL){
                         printf("%s 파일 열기 실패\n", fileName);
-                    }else{
-                        fprintf(file, "%s|%f|%u|%u|%u|%u\n", 
-                        employeelist[i].name, employeelist[i].fte, employeelist[i].level, employeelist[i].date_t.day, employeelist[i].date_t.month, employeelist[i].date_t.year);
+                    }
+                    else {
+                        for(int i = 0; i <= temp; i++){
+                            fprintf(file, "%s|%f|%u|%u|%u|%u\n", 
+                            employeelist[i].name, employeelist[i].fte, employeelist[i].level, employeelist[i].date_t.day, employeelist[i].date_t.month, employeelist[i].date_t.year);
+                        }
+                        current_employee_number = 0;
+                        printf("Saved at %s file\n", fileName);
                         fclose(file);
                     }
-                }
             }
         }
          else if(input != -1){
-            printf("[Warning] 1 (Add), 2 (Remove), 3 (View) 4 (Save), -1 (Exit) => ");
+            printf("[Warning] 1 (Add), 2 (Remove), 3 (Save), -1 (Exit) => ");
         }
     }while(input != -1);
 
